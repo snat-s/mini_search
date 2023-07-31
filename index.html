@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Search Results</title>
+	</head>
+	<body>
+    <div>
+      <h1>Mini SE</h1>
+      <input type=text id=linkInput>
+      <!--<button id=submitButton>Submit</button>-->
+      <div class="container" id=response>
+
+      </div>
+    </div>
+    <script>
+			const input = document.getElementById("linkInput");
+			//const submitButton = document.getElementById("submitButton");
+			const response = document.getElementById("response");
+
+			input.addEventListener("input", () => {
+	    	const query = input.value;
+	    	//input.value = "";
+	    	response.innerHTML = "Loading...";
+	    	/*
+	      Make a loading for the input.
+	    	 */
+	    	fetch("http://localhost:8080/", {
+					method: "POST",
+					headers: {
+		    		"Content-Type": "application/json"
+					},
+					body: query
+	    	})
+					.then(res => res.text())
+					.then(html => {
+		    		response.innerHTML = html;
+		    		console.log(html);
+
+					})
+					.catch(error => {
+		    		response.innerHTML = "The query could not be served.";
+		    		console.error(error);
+					});
+			});
+
+    </script>
+
+	</body>
+</html>
